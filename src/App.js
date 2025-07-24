@@ -16,7 +16,27 @@ function MainElection() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#e3f2fd", padding: 0, margin: 0 }}>
-      <h1 style={{ color: "#1976d2", textAlign: "center", padding: "2rem 0 1rem 0", margin: 0, fontWeight: 800, letterSpacing: 1 }}>School Election</h1>
+      {/* Navbar */}
+      <nav style={{
+        width: "100%",
+        background: "#fff",
+        borderBottom: "2px solid #1976d2",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "0.5rem 2rem",
+        position: "sticky",
+        top: 0,
+        zIndex: 1000,
+        boxShadow: "0 2px 8px #1976d222",
+        minHeight: 150
+      }}>
+        <img src="/pollocks.jpg" alt="Pollocks Logo" style={{ height: 120, marginRight: 24 }} />
+        <span style={{ color: "#1976d2", fontWeight: 800, fontSize: 32, letterSpacing: 1, textAlign: "center" }}>Pollocks School</span>
+      </nav>
+      {/* End Navbar */}
+      <h1 style={{ color: "#1976d2", textAlign: "center", padding: "2rem 0 0 0", margin: 0, fontWeight: 800, letterSpacing: 1 }}>School Elections 2025-2026</h1>
+      <h3 style={{ color: "#000", textAlign: "center",fontWeight: 800, letterSpacing: 1 }}>P1 Branch</h3>
       {step === "idcheck" && <IdCheck onResult={handleIdResult} />}
       {step === "already" && (
         <div style={{ margin: "2rem auto", maxWidth: 350, padding: 32, border: "1px solid #f44336", borderRadius: 16, background: "#fff3e0", color: "#d32f2f", textAlign: "center", boxShadow: "0 2px 8px #f4433622" }}>

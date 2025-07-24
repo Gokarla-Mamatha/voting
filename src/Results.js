@@ -4,8 +4,8 @@ import { collection, getDocs } from "firebase/firestore";
 
 function Results() {
   const [tally, setTally] = useState({
-    president: {},
-    vicePresident: {},
+    captain: {},
+    vicecaptain: {},
     secretary: {},
   });
   const [loading, setLoading] = useState(true);
@@ -14,9 +14,9 @@ function Results() {
     const fetchVotes = async () => {
       const votesSnapshot = await getDocs(collection(db, "votes"));
       const votes = votesSnapshot.docs.map(doc => doc.data());
-      const newTally = { president: {}, vicePresident: {}, secretary: {} };
+      const newTally = { captain: {}, vicecaptain: {}, secretary: {} };
       votes.forEach(vote => {
-        ["president", "vicePresident", "secretary"].forEach(post => {
+        ["captain", "vicecaptain", "secretary"].forEach(post => {
           if (vote[post]) {
             newTally[post][vote[post]] = (newTally[post][vote[post]] || 0) + 1;
           }
@@ -48,8 +48,8 @@ function Results() {
         <table style={{ width: "100%", borderCollapse: "separate", borderSpacing: 0 }}>
           <tbody>
             {renderRow("secretary", "Secretary")}
-            {renderRow("president", "President")}
-            {renderRow("vicePresident", "Vice President")}
+            {renderRow("captain", "Captain")}
+            {renderRow("vicecaptain", "Vice Captain")}
           </tbody>
         </table>
       </div>
