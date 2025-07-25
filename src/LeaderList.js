@@ -76,7 +76,7 @@ function LeaderList({ userId }) {
                   }}
                 >
                   {candidate.imageUrl && (
-                    <img src={candidate.imageUrl} alt={candidate.name} style={{ height: 150, width: 150, objectFit: "contain", background: "#fff" }} />
+                    <img src={candidate.imageUrl} alt={candidate.name} style={{ height: 200, width: 200, objectFit: "contain", background: "#fff" }} />
                   )}
                   {votes[post] === candidate.name && (
                     <span style={{
@@ -119,7 +119,7 @@ function LeaderList({ userId }) {
                   }}
                 >
                   {candidate.imageUrl && (
-                    <img src={candidate.imageUrl} alt={candidate.name} style={{ height: 150, width: 150, objectFit: "contain", background: "#fff" }} />
+                    <img src={candidate.imageUrl} alt={candidate.name} style={{ height: 200, width: 200, objectFit: "contain", background: "#fff" }} />
                   )}
                   {votes[post] === candidate.name && (
                     <span style={{
