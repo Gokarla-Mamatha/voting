@@ -52,8 +52,7 @@ function MainElection() {
       )}
       {step === "vote" && (
         <div>
-          <LeaderList />
-          <VoteForm idInfo={idInfo} onVoted={() => setStep("done")} />
+          <LeaderList userId={idInfo && idInfo.id} />
         </div>
       )}
       {step === "done" && (

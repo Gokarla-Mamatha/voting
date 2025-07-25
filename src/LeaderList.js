@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { db } from "./firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc } from "firebase/firestore";
 
-function LeaderList() {
+function LeaderList({ userId }) {
   const [leaders, setLeaders] = useState({});
+  const [votes, setVotes] = useState({});
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     const fetchLeaders = async () => {
@@ -12,19 +15,36 @@ function LeaderList() {
       querySnapshot.forEach(doc => {
         const data = doc.data();
         if (!grouped[data.post]) grouped[data.post] = [];
-        // Push the whole candidate object (name, imageUrl, etc.)
-        grouped[data.post].push({imageUrl: data.imageUrl });
+        grouped[data.post].push({ name: data.name, imageUrl: data.imageUrl });
       });
       setLeaders(grouped);
     };
     fetchLeaders();
   }, []);
 
+  const handleSelect = (post, candidateName) => {
+    setVotes({ ...votes, [post]: candidateName });
+  };
+
+  const handleSubmit = async () => {
+    setSubmitting(true);
+    try {
+      await setDoc(doc(db, "votes", userId), votes);
+      setSubmitted(true);
+    } catch (e) {
+      alert("Error submitting vote. Please try again.");
+    }
+    setSubmitting(false);
+  };
+
+  if (submitted) {
+    return <div style={{ textAlign: "center", color: "#1976d2", fontWeight: 700, fontSize: 24, marginTop: 40 }}>Thank you for voting!</div>;
+  }
+
   return (
     <div>
       <h1 style={{ color: "#1976d2", textAlign: "center", marginBottom: 16 }}>Candidates</h1>
       {Object.keys(leaders).map(post => {
-        // Map post keys to display names
         let displayName = post;
         if (post.toLowerCase() === "captain") displayName = "Captain";
         else if (post.toLowerCase() === "vicecaptain" || post.toLowerCase() === "vice captain") displayName = "Vice Captains";
@@ -33,16 +53,50 @@ function LeaderList() {
           <div key={post} style={{ marginBottom: 16 }}>
             <h2 style={{ color: "#1565c0", marginBottom: 8, textAlign: "center" }}>{displayName}</h2>
             <div style={{ display: "flex", flexDirection: "row", gap: 16, justifyContent: "center", alignItems: "center", marginBottom: 6 }}>
-  {leaders[post].map((candidate, idx) => (
-    <div key={idx} style={{ background: "#bbdefb", padding: 8, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
-      {candidate.imageUrl && (
-        <img src={candidate.imageUrl} alt={candidate.name} style={{ height: 150, width: 150, objectFit: "contain", border: "2px solid #1976d2", background: "#fff" }} />      )}
-    </div>
-  ))}
-</div>
+              {leaders[post].map((candidate, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => handleSelect(post, candidate.name)}
+                  style={{
+                    background: votes[post] === candidate.name ? "#1976d2" : "#bbdefb",
+                    padding: 8,
+                    borderRadius: 8,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    border: votes[post] === candidate.name ? "3px solid #1976d2" : "2px solid #1976d2",
+                    boxShadow: votes[post] === candidate.name ? "0 0 10px #1976d299" : undefined
+                  }}
+                >
+                  {candidate.imageUrl && (
+                    <img src={candidate.imageUrl} alt={candidate.name} style={{ height: 150, width: 150, objectFit: "contain", background: "#fff" }} />
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         );
       })}
+      <div style={{ textAlign: "center", marginTop: 32 }}>
+        <button
+          onClick={handleSubmit}
+          disabled={submitting || Object.keys(leaders).some(post => !votes[post])}
+          style={{
+            background: "#1976d2",
+            color: "#fff",
+            padding: "14px 40px",
+            border: "none",
+            borderRadius: 10,
+            fontWeight: 700,
+            fontSize: 20,
+            cursor: submitting ? "not-allowed" : "pointer",
+            opacity: submitting || Object.keys(leaders).some(post => !votes[post]) ? 0.6 : 1
+          }}
+        >
+          {submitting ? "Submitting..." : "Submit Vote"}
+        </button>
+      </div>
     </div>
   );
 }
