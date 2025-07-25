@@ -19,6 +19,7 @@ function VoteForm({ idInfo, onVoted }) {
     fetchLeaders();
   }, []);
 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     await setDoc(doc(db, "votes", idInfo.id), votes);
