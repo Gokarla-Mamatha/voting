@@ -3,16 +3,6 @@ import React, { useState } from "react";
 function IdCheck({ onResult }) {
   const [classNum, setClassNum] = useState("");
 
-  // Mapping of classes to their sections
-  const classSections = {
-    "5": ["C1", "C2", "G1"],
-    "6": ["C1", "C2", "G1"],
-    "7": ["C1", "C2", "G1"],
-    "8": ["C1", "C2", "G1", "G2"],
-    "9": ["C1", "C2", "C3", "G1", "G2"],
-    "10": ["C", "G1", "G2"]
-  };
-
   const handleCheck = async (e) => {
     e.preventDefault();
     const id = `${classNum}`;
