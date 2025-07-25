@@ -18,18 +18,21 @@ function MainElection() {
     <div style={{ minHeight: "100vh", background: "#e3f2fd", padding: 0, margin: 0 }}>
       {/* Navbar */}
       <nav style={{
-        width: "100%",
+        width: "100vw",
         background: "#fff",
         borderBottom: "2px solid #1976d2",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "0.5rem 2rem",
+        padding: "0.5rem 2rem 0.2rem 2rem",
         position: "sticky",
         top: 0,
+        left: 0,
         zIndex: 1000,
         boxShadow: "0 2px 8px #1976d222",
-        minHeight: 150
+        minHeight: 150,
+        margin: 0,
+        borderRadius: 0
       }}>
         <img src="/pollocks.jpg" alt="Pollocks Logo" style={{ height: 120, marginRight: 24 }} />
         <span style={{ color: "#1976d2", fontWeight: 800, fontSize: 32, letterSpacing: 1, textAlign: "center" }}>Pollocks School</span>

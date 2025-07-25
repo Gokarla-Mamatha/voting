@@ -44,12 +44,20 @@ function Results() {
   return (
     <div style={{ minHeight: "100vh", background: "#e3f2fd", padding: "2rem 0" }}>
       <h1 style={{ color: "#1976d2", textAlign: "center", marginBottom: 32 }}>Election Results</h1>
-      <div style={{ maxWidth: 900, margin: "0 auto", background: "#fff", borderRadius: 16, boxShadow: "0 2px 8px #90caf955", padding: 32 }}>
+      <div style={{
+        maxWidth: "1400px",
+        width: "95vw",
+        margin: "0 auto",
+        background: "#fff",
+        borderRadius: 16,
+        boxShadow: "0 2px 8px #90caf955",
+        padding: 32
+      }}>
         <table style={{ width: "100%", borderCollapse: "separate", borderSpacing: 0 }}>
           <tbody>
-            {renderRow("secretary", "Secretary")}
             {renderRow("captain", "Captain")}
-            {renderRow("vicecaptain", "Vice Captain")}
+            {renderRow("vicecaptain", "Vice Captains")}
+            {renderRow("secretary", "Secretary")}
           </tbody>
         </table>
       </div>
