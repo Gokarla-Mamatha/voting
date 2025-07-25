@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import { db } from "./firebase";
-import { doc, getDoc } from "firebase/firestore";
 
 function IdCheck({ onResult }) {
   const [classNum, setClassNum] = useState("");
-  const [loading, setLoading] = useState(false);
 
   // Mapping of classes to their sections
   const classSections = {
@@ -42,8 +39,8 @@ function IdCheck({ onResult }) {
           <option value="10">10</option>
         </select>
       </label>
-      <button type="submit" style={{ width: "100%", background: loading ? "#90caf9" : "#1976d2", color: "#fff", padding: 12, border: "none", borderRadius: 8, fontWeight: 600, fontSize: 16, cursor: loading ? "not-allowed" : "pointer", transition: "background 0.2s" }} disabled={loading}>
-        {loading ? "Checking..." : "Check"}
+      <button type="submit" style={{ width: "100%", background: "#1976d2", color: "#fff", padding: 12, border: "none", borderRadius: 8, fontWeight: 600, fontSize: 16, cursor: "pointer", transition: "background 0.2s" }}>
+        Check
       </button>
     </form>
   );
