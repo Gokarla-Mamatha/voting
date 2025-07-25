@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import IdCheck from "./IdCheck";
-import VoteForm from "./VoteForm";
 import LeaderList from "./LeaderList";
 import Results from "./Results";
 
