@@ -44,7 +44,22 @@ function LeaderList({ userId }) {
   return (
     <div>
       <h1 style={{ color: "#1976d2", textAlign: "center", marginBottom: 16 }}>Candidates</h1>
-      {Object.keys(leaders).map(post => {
+      {Object.keys(leaders)
+        .sort((a, b) => {
+          // Custom sorting: secretary first, then vice captain, then captain
+          const aLower = a.toLowerCase();
+          const bLower = b.toLowerCase();
+          
+          if (aLower.includes('secretary')) return -1;
+          if (bLower.includes('secretary')) return 1;
+          if (aLower.includes('vice') || aLower.includes('vicecaptain')) return -1;
+          if (bLower.includes('vice') || bLower.includes('vicecaptain')) return 1;
+          if (aLower.includes('captain')) return 1;
+          if (bLower.includes('captain')) return -1;
+          
+          return a.localeCompare(b);
+        })
+        .map(post => {
         let displayName = post;
         if (post.toLowerCase() === "captain") displayName = "Captain";
         else if (post.toLowerCase() === "vicecaptain" || post.toLowerCase() === "vice captain") displayName = "Vice Captains";
