@@ -21,6 +21,9 @@ function IdCheck({ onResult }) {
           style={{ width: "100%", marginTop: 4, marginBottom: 8, padding: 10, borderRadius: 8, border: "1px solid #90caf9", background: "#fff" }}
         >
           <option value="">Select Class</option>
+         
+          <option value="3">3</option>
+          <option value="4">4</option>
           <option value="5">5</option>
           <option value="6">6</option>
           <option value="7">7</option>
