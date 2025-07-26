@@ -56,7 +56,7 @@ function Results() {
         <table style={{ width: "100%", borderCollapse: "separate", borderSpacing: 0 }}>
           <tbody>
             {renderRow("captain", "Captain")}
-            {renderRow("vicecaptain", "Vice Captains")}
+            {renderRow("vicecaptain", "Vice Captain")}
             {renderRow("secretary", "Secretary")}
           </tbody>
         </table>

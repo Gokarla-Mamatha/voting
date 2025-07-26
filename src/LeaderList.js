@@ -62,7 +62,7 @@ function LeaderList({ userId }) {
         .map(post => {
         let displayName = post;
         if (post.toLowerCase() === "captain") displayName = "Captain";
-        else if (post.toLowerCase() === "vicecaptain" || post.toLowerCase() === "vice captain") displayName = "Vice Captains";
+        else if (post.toLowerCase() === "vicecaptain" || post.toLowerCase() === "vice captain") displayName = "Vice Captain";
         else displayName = post.charAt(0).toUpperCase() + post.slice(1);
         // Split candidates into two rows
         const candidates = leaders[post];
