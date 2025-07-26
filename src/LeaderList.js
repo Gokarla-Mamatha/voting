@@ -22,27 +22,27 @@ function LeaderList({ userId }) {
     fetchLeaders();
   }, []);
 
-  const handleSelect = async (post, candidateName) => {
-    const newVotes = { ...votes, [post]: candidateName };
-    setVotes(newVotes);
-    
-    // Auto-submit when a selection is made
+  const handleSelect = (post, candidateName) => {
+    setVotes({ ...votes, [post]: candidateName });
+  };
+
+  const handleSubmit = async () => {
     setSubmitting(true);
     try {
-      // Extract class from userId (supports various formats like "6th-123", "7-456", "8th-789")
+      // Extract class from userId (assuming userId contains class info like "6th-123")
       const classMatch = userId.match(/(\d+)/);
-      const studentClass = classMatch ? classMatch[1] : "1"; // Default to 1 if no class found
+      const studentClass = classMatch ? classMatch[1] : "6"; // Default to 6 if no class found
       
       // Check existing votes for this class to get the next number
       const votesQuery = query(collection(db, "votes"), where("class", "==", studentClass));
       const existingVotes = await getDocs(votesQuery);
       const nextNumber = existingVotes.size + 1;
       
-      // Create unique document ID: class-number (e.g., "6-1", "7-1", "8-1")
+      // Create unique document ID: class-number (e.g., "6-1", "6-2")
       const documentId = `${studentClass}-${nextNumber}`;
       
       await setDoc(doc(db, "votes", documentId), {
-        ...newVotes,
+        ...votes,
         userId: userId,
         class: studentClass,
         timestamp: new Date().toISOString()
@@ -53,8 +53,6 @@ function LeaderList({ userId }) {
     }
     setSubmitting(false);
   };
-
-
 
   if (submitted) {
     return <div style={{ textAlign: "center", color: "#1976d2", fontWeight: 700, fontSize: 24, marginTop: 40 }}>Thank you for voting!</div>;
@@ -179,6 +177,25 @@ function LeaderList({ userId }) {
           </div>
         );
       })}
+      <div style={{ textAlign: "center", marginTop: 32 }}>
+        <button
+          onClick={handleSubmit}
+          disabled={submitting || Object.keys(votes).length === 0}
+          style={{
+            background: "#1976d2",
+            color: "#fff",
+            padding: "14px 40px",
+            border: "none",
+            borderRadius: 10,
+            fontWeight: 700,
+            fontSize: 20,
+            cursor: submitting ? "not-allowed" : "pointer",
+            opacity: submitting || Object.keys(votes).length === 0 ? 0.6 : 1
+          }}
+        >
+          {submitting ? "Submitting..." : "Submit Vote"}
+        </button>
+      </div>
     </div>
   );
 }
