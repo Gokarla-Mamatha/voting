@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { db } from "./firebase";
-import { collection, getDocs, doc, setDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, query, where } from "firebase/firestore";
 
 function LeaderList({ userId }) {
   const [leaders, setLeaders] = useState({});
@@ -29,7 +29,24 @@ function LeaderList({ userId }) {
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
-      await setDoc(doc(db, "votes", userId), votes);
+      // Extract class from userId (assuming userId contains class info like "6th-123")
+      const classMatch = userId.match(/(\d+)/);
+      const studentClass = classMatch ? classMatch[1] : "6"; // Default to 6 if no class found
+      
+      // Check existing votes for this class to get the next number
+      const votesQuery = query(collection(db, "votes"), where("class", "==", studentClass));
+      const existingVotes = await getDocs(votesQuery);
+      const nextNumber = existingVotes.size + 1;
+      
+      // Create unique document ID: class-number (e.g., "6-1", "6-2")
+      const documentId = `${studentClass}-${nextNumber}`;
+      
+      await setDoc(doc(db, "votes", documentId), {
+        ...votes,
+        userId: userId,
+        class: studentClass,
+        timestamp: new Date().toISOString()
+      });
       setSubmitted(true);
     } catch (e) {
       alert("Error submitting vote. Please try again.");
